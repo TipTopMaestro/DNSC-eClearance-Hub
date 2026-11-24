@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets
+.env
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+
+# Private records
+data/
+logs/
+
+# Local editor settings
+.vscode/
