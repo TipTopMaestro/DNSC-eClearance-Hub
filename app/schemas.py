@@ -129,3 +129,29 @@ class StudentRecord(StrictSchema):
             raise ValueError("Name cannot be empty.")
 
         return value
+
+
+#AUTHENTICATION
+
+class TokenResponse(StrictSchema):
+    access_token: str
+    token_type: Literal["bearer"] = "bearer"
+    expires_in: int
+
+
+class UserResponse(StrictSchema):
+    user_id: int
+    username: str
+
+    role: Literal[
+        "STUDENT",
+        "STAFF",
+        "ADMIN"
+    ]
+
+    student_id: str | None = None
+    office: Office | None = None
+
+
+class MessageResponse(StrictSchema):
+    message: str
