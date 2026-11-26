@@ -275,9 +275,11 @@ The backend developer maintains `backend/` and the API contract. The four fronte
 
 ### Create your assigned feature branch
 
-From the repository root, after updating `main`:
+From the repository root, after updating `development`:
 
 ```bash
+git switch develop
+git pull --ff-only origin develop
 git switch -c feature/student-dashboard
 ```
 
