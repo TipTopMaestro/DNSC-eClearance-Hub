@@ -1,20 +1,31 @@
 # Python
 .venv/
+venv/
 __pycache__/
 *.pyc
 .pytest_cache/
 
-# Secrets
+# Environment secrets
 .env
+.env.*
+!.env.example
 
-# Database
+# SQLite databases
 *.db
 *.db-wal
 *.db-shm
+*.db-journal
 
-# Private records
-data/
-logs/
+# Private backend files
+/backend/data/
+/backend/logs/
 
-# Local editor settings
+# Frontend dependencies, if used
+node_modules/
+
+# IDE settings
 .vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
