@@ -28,14 +28,14 @@ Balance	            reason	            Format description	        Invalid balanc
 
 Applying all transformation rules from the module
 
-Transformation	Application in our Hub
-Rename	        student_no → student_id
-Split	        Separate first and last names if required by a source contract
-Merge	        Combine unpaid fines and unreturned books into one reason
-Change          case / trim	Normalize program codes and surrounding whitespace
-Lookup	        Map program codes to program names
-Reformat	    Convert agreed source dates to ISO 8601
-Convert type	Convert "3" to integer 3
-Default value	Missing clearance record defaults to HOLD with a reason
-Calculate	    Determine office and overall clearance status
-Drop	        Exclude unnecessary personal fields from reports
+Transformation	    Application in our Hub
+Rename	            student_no → student_id
+Split	            Separate first and last names if required by a source contract
+Merge	            Combine unpaid fines and unreturned books into one reason
+Change              case / trim	Normalize program codes and surrounding whitespace
+Lookup	            Map program codes to program names
+Reformat	        Convert agreed source dates to ISO 8601
+Convert type	    Convert "3" to integer 3
+Default value	    Missing clearance record defaults to HOLD with a reason
+Calculate	        Determine office and overall clearance status
+Drop	            Exclude unnecessary personal fields from reports
