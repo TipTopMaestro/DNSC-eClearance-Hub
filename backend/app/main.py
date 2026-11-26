@@ -19,6 +19,8 @@ from app.routers import auth, students
 
 logger = logging.getLogger(__name__)
 
+from fastapi.middleware.cors import CORSMiddleware
+from app.config import FRONTEND_ORIGINS
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,6 +39,26 @@ app = FastAPI(
     lifespan=lifespan,
     debug=False
 )
+
+#CORS MIDDLEWARE 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=FRONTEND_ORIGINS,
+    allow_credentials=False,
+    allow_methods=[
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+    ],
+    allow_headers=[
+        "Authorization",
+        "Content-Type"
+    ]
+)
+
 
 
 # Register routers.
