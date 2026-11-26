@@ -131,7 +131,7 @@ class StudentRecord(StrictSchema):
         return value
 
 
-#AUTHENTICATION
+#TOKEN AUTHENTICATION
 
 class TokenResponse(StrictSchema):
     access_token: str
@@ -155,3 +155,6 @@ class UserResponse(StrictSchema):
 
 class MessageResponse(StrictSchema):
     message: str
+
+
+
