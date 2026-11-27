@@ -4,7 +4,6 @@ An IT312 Integrative Programming and Technologies final project that integrates 
 
 The project uses a **monorepo** with a separate FastAPI backend and a vanilla JavaScript frontend. The backend handles authentication, authorization, database operations, data integration, and clearance business rules. The frontend communicates with the backend exclusively through its REST API.
 
-> **Development status:** Initial backend foundation, authentication, student profile and clearance endpoints, and frontend/backend separation (Tutorials 1–3.5). The Student Hub UI is under development. Registrar integration, holiday-based deadlines, secure file imports, staff/admin interfaces, reports, and signed QR slips are planned, not yet implemented in this baseline.
 
 ## Technology stack
 
