@@ -1,4 +1,4 @@
-
+from datetime import date
 import logging
 
 from fastapi import (
@@ -22,6 +22,21 @@ from app.services.registrar_service import (
 
 from app.integrations.registrar_client import (
     RegistrarAPIError
+)
+
+from app.schemas import ClearancePeriodCreate
+
+from app.services.deadline_service import (
+    calculate_deadline
+)
+
+from app.repositories.periods import (
+    create_period,
+    PeriodConflictError
+)
+
+from app.integrations.holidays_client import (
+    HolidaysAPIError
 )
 
 
@@ -108,3 +123,55 @@ def get_registrar_rejections(
                 dict(row) for row in rows
             ]
         }
+
+#Periods Router
+
+@router.post("/periods", status_code=201)
+def create_clearance_period(
+    body: ClearancePeriodCreate,
+
+    user: dict = Depends(
+        require_roles("ADMIN")
+    )
+):
+    start_date = date.fromisoformat(
+        body.start_date
+    )
+
+    try:
+        deadline = calculate_deadline(
+            start_date,
+            body.working_days
+        )
+
+        period_id = create_period(
+            name=body.name,
+            start_date=start_date,
+            deadline=deadline
+        )
+
+    except HolidaysAPIError as error:
+        raise HTTPException(
+            status_code=error.status_code,
+            detail=str(error)
+        )
+
+    except PeriodConflictError as error:
+        raise HTTPException(
+            status_code=409,
+            detail=str(error)
+        )
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+
+    return {
+        "period_id": period_id,
+        "name": body.name,
+        "start_date": start_date.isoformat(),
+        "working_days": body.working_days,
+        "deadline": deadline.isoformat()
+    }

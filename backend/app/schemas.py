@@ -10,6 +10,8 @@ from app.utils.validators import (
     validate_email,
     PROGRAMS
 )
+from datetime import date
+from app.config import CLEARANCE_WORKING_DAYS
 
 Office = Literal[
     "REGISTRAR",
@@ -157,4 +159,47 @@ class MessageResponse(StrictSchema):
     message: str
 
 
+#CLEARANCE PERIOD
+class ClearancePeriodCreate(StrictSchema):
+    name: str = Field(
+        min_length=1,
+        max_length=100
+    )
 
+    start_date: str = Field(
+        pattern=r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    )
+
+    working_days: int = Field(
+        default=CLEARANCE_WORKING_DAYS,
+        ge=1,
+        le=365
+    )
+
+    @field_validator("name")
+    @classmethod
+    def validate_period_name(cls, value):
+        value = value.strip()
+
+        if not value or not value.isprintable():
+            raise ValueError("Invalid period name.")
+
+        return value
+
+    @field_validator("start_date")
+    @classmethod
+    def validate_start_date(cls, value):
+        try:
+            parsed = date.fromisoformat(value)
+
+        except ValueError:
+            raise ValueError(
+                "Invalid calendar date."
+            ) from None
+
+        if not 2000 <= parsed.year <= 2098:
+            raise ValueError(
+                "Unsupported starting year."
+            )
+
+        return parsed.isoformat()
