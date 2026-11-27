@@ -220,6 +220,15 @@ python -m http.server 5500 --bind 127.0.0.1 --directory frontend
 
 Use `python3` on macOS/Linux if needed. Alternatively, use VS Code Live Server configured to serve **only** `frontend/` on port `5500`. Never serve the entire repository, as it contains private backend files.
 
+### Terminal 3 - Register Mock External API
+
+**Windows (PowerShell)**
+```powershell
+.\.venv\Scripts\Activate.ps1
+cd backend
+python -m uvicorn mock_sources.registrar_api:app --port 9000 --reload
+```
+
 | Service | Local URL |
 | --- | --- |
 | FastAPI | http://127.0.0.1:8000/ |
