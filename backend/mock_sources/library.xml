@@ -1,0 +1,23 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <student id="2023-0104">
+        <unreturned_books>2</unreturned_books>
+        <unpaid_fines>50.00</unpaid_fines>
+    </student>
+
+    <student id="2023-0105">
+        <unreturned_books>0</unreturned_books>
+        <unpaid_fines>0.00</unpaid_fines>
+    </student>
+
+    <student id="2023-0106">
+        <unreturned_books>0</unreturned_books>
+        <unpaid_fines>100.00</unpaid_fines>
+    </student>
+
+    <student id="104">
+        <unreturned_books>1</unreturned_books>
+        <unpaid_fines>0.00</unpaid_fines>
+    </student>
+</library>
