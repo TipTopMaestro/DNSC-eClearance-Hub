@@ -4,7 +4,8 @@ from pathlib import Path
 from app.config import DATABASE_PATH
 from app.database import (
     init_db,
-    init_additional_tables
+    init_additional_tables,
+    init_registrar_tables
 )
 
 
@@ -46,6 +47,7 @@ def main():
     # Recreate all database tables.
     init_db()
     init_additional_tables()
+    init_registrar_tables()
 
     print("\nDatabase reset successfully.")
     print("All tables have been recreated.")
