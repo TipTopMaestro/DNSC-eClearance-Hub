@@ -246,3 +246,51 @@ def init_additional_tables():
             CREATE INDEX IF NOT EXISTS idx_import_source
                 ON import_batches(office, period_id, source_created_at);
         """)
+
+
+def init_registrar_tables():
+    with get_db() as conn:
+        conn.executescript("""
+            CREATE TABLE IF NOT EXISTS registrar_sync_runs (
+                sync_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+                actor_user_id INTEGER NOT NULL,
+
+                started_at TEXT NOT NULL,
+                completed_at TEXT NOT NULL,
+
+                received_count INTEGER NOT NULL
+                    CHECK(received_count >= 0),
+
+                accepted_count INTEGER NOT NULL
+                    CHECK(accepted_count >= 0),
+
+                rejected_count INTEGER NOT NULL
+                    CHECK(rejected_count >= 0),
+
+                CHECK(
+                    received_count =
+                    accepted_count + rejected_count
+                ),
+
+                FOREIGN KEY(actor_user_id)
+                    REFERENCES users(user_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS registrar_sync_rejections (
+                rejection_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+                sync_id INTEGER NOT NULL,
+
+                record_number INTEGER NOT NULL
+                    CHECK(record_number > 0),
+
+                reason TEXT NOT NULL,
+                rejected_at TEXT NOT NULL,
+
+                FOREIGN KEY(sync_id)
+                    REFERENCES registrar_sync_runs(sync_id),
+
+                UNIQUE(sync_id, record_number)
+            );
+        """)

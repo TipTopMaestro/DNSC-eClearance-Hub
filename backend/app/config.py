@@ -67,3 +67,14 @@ FRONTEND_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+#Registrar Pagination
+
+REGISTRAR_PAGE_SIZE = int(
+    os.getenv("REGISTRAR_PAGE_SIZE", "100")
+)
+
+if not 1 <= REGISTRAR_PAGE_SIZE <= 100:
+    raise RuntimeError(
+        "Invalid Registrar page size."
+    )

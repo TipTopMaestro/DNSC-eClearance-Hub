@@ -1,4 +1,3 @@
-
 import logging
 
 from contextlib import asynccontextmanager
@@ -11,10 +10,11 @@ from app.config import APP_NAME
 
 from app.database import (
     init_db,
-    init_additional_tables
+    init_additional_tables,
+    init_registrar_tables
 )
 
-from app.routers import auth, students
+from app.routers import auth, students, admin
 
 
 logger = logging.getLogger(__name__)
@@ -26,6 +26,7 @@ from app.config import FRONTEND_ORIGINS
 async def lifespan(app: FastAPI):
     init_db()
     init_additional_tables()
+    init_registrar_tables()
 
     print("Database initialized successfully.")
 
@@ -64,6 +65,7 @@ app.add_middleware(
 # Register routers.
 app.include_router(auth.router)
 app.include_router(students.router)
+app.include_router(admin.router)
 
 
 @app.exception_handler(RequestValidationError)
