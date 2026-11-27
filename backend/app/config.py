@@ -1,9 +1,9 @@
-
 import os
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
-
+from datetime import date
 
 def require_env(name):
     value = os.environ.get(name)
@@ -78,3 +78,42 @@ if not 1 <= REGISTRAR_PAGE_SIZE <= 100:
     raise RuntimeError(
         "Invalid Registrar page size."
     )
+    
+#DATES CONFIGURATIONS
+
+HOLIDAYS_CACHE_SECONDS = int(
+    os.getenv("HOLIDAYS_CACHE_SECONDS", "21600")
+)
+
+if not 0 <= HOLIDAYS_CACHE_SECONDS <= 86400:
+    raise RuntimeError("Invalid holidays cache duration.")
+
+
+def parse_extra_closures():
+    raw = os.getenv("EXTRA_NON_WORKING_DATES", "")
+    dates = set()
+
+    for value in raw.split(","):
+        value = value.strip()
+
+        if not value:
+            continue
+
+        try:
+            if not re.fullmatch(
+                r"[0-9]{4}-[0-9]{2}-[0-9]{2}",
+                value
+            ):
+                raise ValueError()
+
+            dates.add(date.fromisoformat(value))
+
+        except ValueError:
+            raise RuntimeError(
+                "Invalid EXTRA_NON_WORKING_DATES configuration."
+            ) from None
+
+    return frozenset(dates)
+
+
+EXTRA_NON_WORKING_DATES = parse_extra_closures()
