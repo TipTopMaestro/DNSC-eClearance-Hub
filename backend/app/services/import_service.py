@@ -1,4 +1,3 @@
-
 from app.database import get_db
 
 from app.security.manifests import verify_manifest

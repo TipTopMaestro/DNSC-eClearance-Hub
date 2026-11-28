@@ -175,3 +175,77 @@ def create_clearance_period(
         "working_days": body.working_days,
         "deadline": deadline.isoformat()
     }
+
+#BATCH FILES IMPORTS
+@router.get("/imports")
+def get_imports(
+    limit: int = Query(default=100, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    user: dict = Depends(require_roles("ADMIN"))
+):
+    with get_db() as conn:
+        rows = conn.execute("""
+            SELECT batch_id, office, period_id,
+                   filename, source_created_at,
+                   processed_at, accepted_count,
+                   rejected_count
+            FROM import_batches
+            ORDER BY processed_at DESC, batch_id DESC
+            LIMIT ? OFFSET ?
+        """, (limit, offset)).fetchall()
+
+        return [dict(row) for row in rows]
+    
+#Rejected Logs
+@router.get("/rejections")
+def get_rejections(
+    limit: int = Query(default=100, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    user: dict = Depends(require_roles("ADMIN"))
+):
+    with get_db() as conn:
+        rows = conn.execute("""
+            SELECT r.rejection_id,
+                   r.batch_id,
+                   b.office,
+                   r.record_number,
+                   r.student_id_masked,
+                   r.reason,
+                   r.rejected_at
+            FROM import_rejections AS r
+            JOIN import_batches AS b
+                ON r.batch_id = b.batch_id
+            ORDER BY r.rejection_id DESC
+            LIMIT ? OFFSET ?
+        """, (limit, offset)).fetchall()
+
+        return [dict(row) for row in rows]
+
+#Audit
+@router.get("/audit")
+def get_audit_logs(
+    limit: int = Query(default=100, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    user: dict = Depends(require_roles("ADMIN"))
+):
+    with get_db() as conn:
+        rows = conn.execute("""
+            SELECT a.audit_id,
+                   a.actor_user_id,
+                   u.username,
+                   a.student_id,
+                   a.period_id,
+                   a.office,
+                   a.action,
+                   a.old_status,
+                   a.new_status,
+                   a.reason,
+                   a.created_at
+            FROM audit_logs AS a
+            JOIN users AS u
+                ON a.actor_user_id = u.user_id
+            ORDER BY a.audit_id DESC
+            LIMIT ? OFFSET ?
+        """, (limit, offset)).fetchall()
+
+        return [dict(row) for row in rows]
