@@ -1,4 +1,3 @@
-
 from app.repositories.students import find_student
 from app.repositories.periods import find_period
 from app.repositories.clearance import get_student_clearance

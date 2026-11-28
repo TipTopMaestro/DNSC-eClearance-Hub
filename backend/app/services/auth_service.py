@@ -1,4 +1,3 @@
-
 import secrets
 
 from app.config import TOKEN_EXPIRY_MINUTES

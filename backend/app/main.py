@@ -14,7 +14,7 @@ from app.database import (
     init_registrar_tables
 )
 
-from app.routers import( auth, students, admin, deadlines)
+from app.routers import( auth, students, admin, deadlines, staff)
 
 
 logger = logging.getLogger(__name__)
@@ -67,6 +67,7 @@ app.include_router(auth.router)
 app.include_router(students.router)
 app.include_router(admin.router)
 app.include_router(deadlines.router)
+app.include_router(staff.router)
 
 @app.exception_handler(RequestValidationError)
 async def validation_error_handler(
