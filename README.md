@@ -374,6 +374,34 @@ This assumes the reset utility from the previous tutorial is present in your che
 | Frontend page not found | Check that the page exists in `frontend/student-hub/` and the static server serves `frontend/`. |
 | Git pull conflict or divergence | Preserve your work and coordinate with the project lead. |
 
+
+## Automated Office Imports
+
+Place complete signed batch folders inside:
+
+`backend/data/drop/`
+
+Each batch must contain one XML or CSV file
+and its `manifest.json`.
+
+Run the automation from the backend directory:
+
+```bash
+python -m automation.process_drop
+```
+
+Successful batches are moved to `data/archive/`.
+Invalid batches are moved to `data/rejected/`.
+
+Temporary processing failures remain in the drop folder.
+
+Logs are written to `logs/automation.log`.
+
+Daily HOLD summaries are generated in `data/reports/`.
+
+The script can be scheduled using Windows Task Scheduler.
+
+
 ## Repository
 
 [TipTopMaestro/DNSC-eClearance-Hub](https://github.com/TipTopMaestro/DNSC-eClearance-Hub)
