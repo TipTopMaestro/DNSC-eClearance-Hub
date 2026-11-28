@@ -32,12 +32,16 @@ GET	        /api/v1/staff/students	                            STAFF	        200
 GET	        /api/v1/staff/clearance/{student_id}	            STAFF	        200
 PATCH	    /api/v1/staff/clearance/{student_id}	            STAFF	        200
 
-
+Reports
+Method	    Endpoint                                            Authentication	Success
+GET         /api/v1/reports/clearance                           ADMIN/REGISTRAR 200
+                                                                STAFF       
 Required and optional query parameters
-Endpoint	                                        Parameter	        Required	Default
-/api/v1/clearance/me	                            period_id	        Yes	        —
-/api/v1/staff/clearance/{student_id}	            period_id	        Yes	        —
-/api/v1/admin/sync/registrar/{sync_id}/rejections	limit, offset	    No	        100, 0
-/api/v1/admin/imports	                            limit, offset	    No	        100, 0
-/api/v1/admin/rejections	                        limit, offset	    No	        100, 0
-/api/v1/admin/audit	                                limit, offset	    No	        100, 0
+Endpoint	                                        Parameter	                Required	Default
+/api/v1/clearance/me	                            period_id	                Yes	        —
+/api/v1/staff/clearance/{student_id}	            period_id	                Yes	        —
+/api/v1/admin/sync/registrar/{sync_id}/rejections	limit, offset	            No	        100, 0
+/api/v1/admin/imports	                            limit, offset	            No	        100, 0
+/api/v1/admin/rejections	                        limit, offset	            No	        100, 0
+/api/v1/admin/audit	                                limit, offset	            No	        100, 0
+/api/v1/reports/clearance	                        period_id               	Yes	        —
